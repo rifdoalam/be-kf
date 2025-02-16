@@ -20,3 +20,17 @@ func GenerateJWT(email string) (string, error) {
 	}
 	return tokenString, nil
 }
+
+func ValidateJWT(tokenString string) (jwt.MapClaims, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || !token.Valid {
+		return nil, err
+	}
+	return claims, nil
+}

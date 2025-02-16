@@ -22,8 +22,7 @@ func Init() *gorm.DB {
 	}
 
 	// Migrate the schema
-	db.AutoMigrate(&models.ZoomMeeting{})
-
+	db.AutoMigrate(&models.User{})
 	return db
 }
 

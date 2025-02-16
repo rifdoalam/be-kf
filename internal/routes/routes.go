@@ -15,25 +15,26 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
 		})
 	})
 
-	zoomGroup := r.Group("/api/zoom")
+	// Auth routes
+	authRoutes := r.Group("/api/auth")
 	{
-		zoomGroup.POST("/create-meeting", func(c *gin.Context) {
-			handlers.CreateZoomMeeting(c, db)
+		authRoutes.POST("/register", func(c *gin.Context) {
+			handlers.RegistrationHandler(c, db)
 		})
-
-		zoomGroup.GET("/meetings", func(c *gin.Context) {
-			handlers.GetZoomMeeting(c, db)
+		authRoutes.POST("/login", func(c *gin.Context) {
+			handlers.LoginHandler(c, db)
 		})
-
-		zoomGroup.PUT("/meeting/:meetingId", func(c *gin.Context) {
-			handlers.UpdateZoomMeeting(c, db)
-		})
-
-		zoomGroup.DELETE("/meeting/:meetingId", func(c *gin.Context) {
-			handlers.DeleteZoomMeeting(c, db)
-		})
-
+		
 	}
 
-
+	// Profile routes
+	profileRoutes := r.Group("/api/profile")
+	{
+		
+		profileRoutes.GET("/", func(c *gin.Context) {
+			handlers.GetProfile(c, db)
+		})
+		
+	}
+	
 }
